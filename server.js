@@ -14,8 +14,9 @@ const {webhookCheckout}=require('./services/orderServices');
 
 app.use(cors({origin:"*"}));
 // express.raw({ type: 'application/json' }),
-app.post('/webhook',webhookCheckout );
 app.use(express.json());
+app.post('/webhook',webhookCheckout );
+
 app.use(express.static('uploads'));
 app.use('/api/v1/product',productRoute);
 app.use('/api/v1/user',userRoute);
