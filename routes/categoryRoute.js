@@ -14,19 +14,19 @@ require('../validator/categoryValidator');
 const {allowedTo,protect}=require('../services/authService');
 
 
-router.use(protect);
+// router.use(protect);
 
 router.route('/').
-    get(allowedTo('user','admin','manager'),getCategories).
-    post(allowedTo('admin','manager'),uploadSingleImage('image'),
+    get(getCategories).
+    post(uploadSingleImage('image'),
     resizeSingleImage('category'),createCategoryValidator,createCategory);
 
 
 
 router.route('/:id').
-    get(allowedTo('user','admin','manager'),getCategoryValidator,getCategory)
-    .delete(allowedTo('admin','manager'),deleteCategoryValidator,deleteCategory)
-    .patch(allowedTo('admin','manager'),updateCategoryValidator,updateCategory);
+    get(getCategoryValidator,getCategory)
+    .delete(deleteCategoryValidator,deleteCategory)
+    .patch(updateCategoryValidator,updateCategory);
 
 
 module.exports = router;

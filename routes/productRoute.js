@@ -14,20 +14,20 @@ let {uploadMultipleImage,
 const {allowedTo,protect}=require('../services/authService');
 
 
-router.use(protect);
+// router.use(protect);
 
 router.route('/').
-    get(allowedTo('admin','manager','user'),getProducts).
-    post(allowedTo('admin','manager'),
+    get(getProducts).
+    post(
     uploadMultipleImage([{name:"images",maxCount:7}
     ,{name:"coverImage",maxCount:1}]),
     resizeMultipleImages,
     createProductValidator,createProduct);
     
 router.route('/:id').
-    get(allowedTo('admin','manager','user'),getProductValidator,getProduct).
-    delete(allowedTo('admin','manager'),deleteProductValidator,deleteProduct).
-    patch(allowedTo('admin','manager'),updateProductValidator,updateProduct)
+    get(getProductValidator,getProduct).
+    delete(deleteProductValidator,deleteProduct).
+    patch(updateProductValidator,updateProduct)
 
 
 module.exports=router;
