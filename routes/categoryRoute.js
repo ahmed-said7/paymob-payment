@@ -7,23 +7,26 @@ let {getCategories, updateCategory, deleteCategory, createCategory ,getCategory}
 const {uploadSingleImage,uploadMultipleImage,resizeSingleImage}
     =require('../middllewares/imageMiddleware');
 
-const subcategoryRoute=require('../routes/subcategoryRoute');
 
 let {deleteCategoryValidator,createCategoryValidator,updateCategoryValidator,getCategoryValidator}=
 require('../validator/categoryValidator');
 
+const {allowedTo,protect}=require('../services/authService');
+
+
+router.use(protect);
+
 router.route('/').
-    get(getCategories).
-    post(uploadSingleImage('image'),
+    get(allowedTo('user','admin','manager'),getCategories).
+    post(allowedTo('admin','manager'),uploadSingleImage('image'),
     resizeSingleImage('category'),createCategoryValidator,createCategory);
 
 
 
 router.route('/:id').
-    get(getCategoryValidator,getCategory)
-    .delete(deleteCategoryValidator,deleteCategory)
-    .patch(updateCategoryValidator,updateCategory);
+    get(allowedTo('user','admin','manager'),getCategoryValidator,getCategory)
+    .delete(allowedTo('admin','manager'),deleteCategoryValidator,deleteCategory)
+    .patch(allowedTo('admin','manager'),updateCategoryValidator,updateCategory);
 
-router.use("/subcategory/:categoryId",subcategoryRoute);
 
 module.exports = router;

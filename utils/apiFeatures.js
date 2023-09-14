@@ -7,7 +7,7 @@ class apiFeatures {
     }
     filter(Obj={}){
         let query={...this.queryObject,...Obj};
-        let excluded_fields=['page','sort','limit','select',"keyword"];
+        let excluded_fields=['page','sort','limit','select',"keyword","language"];
         excluded_fields.forEach((field)=>{delete query[field];});
         let queryString=JSON.stringify(query);
         queryString=queryString.replace( /gt|lt|gte|lte/ig , (val) => `$${val}` );
@@ -27,7 +27,7 @@ class apiFeatures {
             let sort=this.queryObject.sort.split(',').join(' ');
             this.query=this.query.sort(sort);
         }else{
-            this.query=this.query.sort("updatedAt");
+            this.query=this.query.sort("-updatedAt");
         };
         return this;
     };

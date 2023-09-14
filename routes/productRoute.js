@@ -11,17 +11,23 @@ let {getProducts, updateProduct, deleteProduct,setSubcategoryId, createProduct ,
 let {uploadMultipleImage,
     resizeMultipleImages}=require('../middllewares/imageMiddleware');
 
+const {allowedTo,protect}=require('../services/authService');
+
+
+router.use(protect);
+
 router.route('/').
-    get(setSubcategoryId,getProducts).
-    post(uploadMultipleImage([{name:"images",maxCount:7}
+    get(allowedTo('admin','manager','user'),getProducts).
+    post(allowedTo('admin','manager'),
+    uploadMultipleImage([{name:"images",maxCount:7}
     ,{name:"coverImage",maxCount:1}]),
     resizeMultipleImages,
     createProductValidator,createProduct);
     
 router.route('/:id').
-    get(getProductValidator,getProduct).
-    delete(deleteProductValidator,deleteProduct).
-    patch(updateProductValidator,updateProduct)
+    get(allowedTo('admin','manager','user'),getProductValidator,getProduct).
+    delete(allowedTo('admin','manager'),deleteProductValidator,deleteProduct).
+    patch(allowedTo('admin','manager'),updateProductValidator,updateProduct)
 
 
 module.exports=router;

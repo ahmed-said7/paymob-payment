@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { toObject } = require('mongoose/lib/utils');
 require('dotenv').config();
 
 const productSchema = new mongoose.Schema(
@@ -8,13 +7,13 @@ const productSchema = new mongoose.Schema(
         type: String,
         required: true,
         trim: true,
-        minlength: [3, 'Too short product title'],
-        maxlength: [100, 'Too long product title'],
+        minlength: 3,
+        maxlength: 100,
     },
     description: {
         type: String,
-        required: [true, 'Product description is required'],
-        minlength: [20, 'Too short product description'],
+        required: true,
+        minlength: 10,
     },
     quantity: {
         type: Number,
@@ -26,29 +25,20 @@ const productSchema = new mongoose.Schema(
     },
     price: {
         type: Number,
-        required: [true, 'Product price is required'],
+        required: true,
         trim: true,
-        max: [200000, 'Too long product price'],
+        max: 200000,
     },
     priceAfterDiscount: {
         type: Number,
     },
     colors: [String],
-    imageCover: {
+    coverImage: {
         type: String
     },
     category: {
         type: mongoose.Schema.ObjectId,
         ref: 'Category',
-        required: [true, 'Product must be belong to category'],
-    },
-    subcategory: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Subcategory',
-        },
-    brand: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Brand',
     },
     images: [String],
     
@@ -57,10 +47,8 @@ const productSchema = new mongoose.Schema(
 );
 
 productSchema.pre(/^find/ig,function(next){
-    if(this.category){
-        this.populate({path:"category",select:"name"});
-    };
-    return next();
+    his.populate("category");
+    next();
 })
 
 

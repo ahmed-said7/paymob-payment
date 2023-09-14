@@ -26,7 +26,7 @@ let updateOne=(model)=> asyncHandler(async(req,res,next)=>{
     res.status(200).json({status:"success",result:document});
     });
 let deleteOne=(model)=> asyncHandler(async(req,res,next)=>{
-        let document=await model.findOneAndDelete(req.params.id);
+        let document=await model.findByIdAndDelete(req.params.id);
         if(!document){
             return next(new apiError(`Couldn't find ${model} for ${id}`,400));
         };
@@ -40,8 +40,8 @@ let getAll=(model)=> asyncHandler(async(req,res,next)=>{
     const features=new apiFeatures(model.find(),req.query).filter(req.filterObj)
     .sort().search().selectFields().pagination();
     const query=await features.query;
-    if(query.length==0){return next(new apiError(`no docs found`,400))}
-    res.status(200).json(query);
+    // if(query.length==0){return next(new apiError(`no docs found`,400))}
+    res.status(200).json({query});
 });
 
 module.exports={getAll,getOne,createOne,updateOne,deleteOne};
