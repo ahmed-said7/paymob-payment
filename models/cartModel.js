@@ -15,7 +15,6 @@ let cartSchema=new mongoose.Schema({
         }
     ],
     totalPrice:Number,
-    totalPriceAfterDiscount:Number,
     user:{
         ref:"User",
         type:mongoose.Schema.ObjectId
@@ -23,5 +22,4 @@ let cartSchema=new mongoose.Schema({
 },{timestamps:true});
 
 let cartModel=mongoose.model('Cart',cartSchema);
-
 module.exports=cartModel;

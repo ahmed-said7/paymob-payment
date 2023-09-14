@@ -21,9 +21,10 @@ const createOrder=asyncHandler(async (req,res,next)=>{
     await Promise.all(
         
         cart.cartItems.map(async(item)=>{
-        await productModel.findOneAndUpdate(item.product,{
+        await productModel.findByIdAndUpdate(item.product,{
             $inc:{sold : item.quantity}
         });
+
     })
     )
     await order.save();
@@ -59,18 +60,20 @@ const updatePaidOrder = asyncHandler(async(req, res, next) => {
 });
 
 const createSessions=asyncHandler(async(req, res, next)=>{
-    let cart=await cartModel.findById(req.params.id);
+    let cart=await cartModel.findById(req.params.cartId);
     if(!cart){
         return next(new apiError("Cart not found",400));
     };
-    // let totalPrice= cart.totalPriceAfterDiscount ? cart.totalPriceAfterDiscount : cart.totalPrice;
+    
     const result=await firststep(cart,req.user);
     res.status(200).json({result});
 
 })
 
 const webhookCheckout = asyncHandler( async (req,res,next)=>{
+    console.log("#########################");
     console.log(req);
+    console.log("#########################");
 });
 
 module.exports={updatePaidOrder,updateDeliveredOrder

@@ -9,15 +9,16 @@ const addProductToCart=asyncHandler( async (req,res,next)=>{
     const quantity = req.body.quantity || 1;
     let cart=await cartModel.findOne({user:req.user._id});
     let product=await productModel.findById(productId);
+    const price= product.priceAfterDiscount ? product.priceAfterDiscount : product.price;
     if(!cart){
         cart=await cartModel.create({user:req.user._id})
-        cart.cartItems=[{ product:productId , price:product.price ,quantity }];
+        cart.cartItems=[{ product:productId , price ,quantity }];
     }else{
         const index=cart.cartItems.findIndex( (item)=> item.product==productId );
         if(index>-1){
             cart.cartItems[index].quantity = quantity;
         }else{
-            cart.cartItems.push({ product:productId , price:product.price , quantity})
+            cart.cartItems.push({ product:productId , price , quantity})
         };
     };
     cart.totalPrice=0;

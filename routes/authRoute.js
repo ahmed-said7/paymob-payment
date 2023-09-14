@@ -21,7 +21,7 @@ router.route('/get-me')
     .get(getLoggedUser);
 
 router.route('/update-me')
-    .patch(uploadSingleImage('image') , resizeSingleImage('user') , updateLoggedUser);
+    .patch(uploadSingleImage('image'),resizeSingleImage('user') ,updateLoggedUser);
 
 router.route('/update-password').patch(changeLoggedUserPassword);
 
