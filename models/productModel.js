@@ -15,10 +15,6 @@ const productSchema = new mongoose.Schema(
         required: true,
         minlength: 10,
     },
-    quantity: {
-        type: Number,
-        default:10,
-    },
     sold: {
         type: Number,
         default: 0,
@@ -32,37 +28,22 @@ const productSchema = new mongoose.Schema(
     priceAfterDiscount: {
         type: Number,
     },
-    colors: [String],
-    coverImage: {
+    image: {
         type: String
     },
     category: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Category',
+        type: String,
+        trim:true
     },
-    images: [String],
-    
+    size:[String],
 },
     { timestamps: true }
 );
 
-productSchema.pre(/^find/ig,function(next){
-    his.populate("category");
-    next();
-})
-
-
 productSchema.post('init',function(doc){
-    if(doc.imageCover){
+    if(doc.image){
         doc.imageCover=`{process.env.base_url}/product/${doc.imageCover}`;
     };
-    if(doc.images){
-        let images=[];
-        doc.images.forEach((img)=>{
-            images.push(`${process.env.base_url}/product/${img}`);
-        });
-        doc.images=images;
-    }
 })
 
 let productModel = mongoose.model('Product', productSchema);

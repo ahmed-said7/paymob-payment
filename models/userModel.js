@@ -30,8 +30,6 @@ const userSchema = new mongoose.Schema(
         enum: ['user', 'manager', 'admin'],
         default: 'user',
     }
-    // ,
-    // orders:[String]
 },
     { timestamps: true }
 );

@@ -1,5 +1,4 @@
 
-const asyncHandler=require('express-async-handler');
 let Product=require('../models/productModel')
 let {getAll,getOne,deleteOne,updateOne,createOne}=require('../utils/apiFactory')
 let getProducts=getAll(Product);

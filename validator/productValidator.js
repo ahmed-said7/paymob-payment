@@ -1,6 +1,5 @@
 let validationMiddleware=require('../middllewares/validationMiddleware');
 let {check}=require('express-validator')
-let Category=require('../models/categoryModel');
 
 let createProductValidator=[
     check('name').notEmpty().withMessage('name is required').
@@ -9,18 +8,15 @@ let createProductValidator=[
     ,check('description').notEmpty().withMessage('description is required').
     isString().withMessage('description must be a string').
     isLength({min:10}).withMessage('description at least 10 characters'),
-    check('quantity').optional()
-    .isNumeric().withMessage('quantity must be a number'),
     check('price').notEmpty().withMessage('price is required')
     .isNumeric().withMessage('quantity must be a number'),
     check('priceAfterDiscount').optional().isNumeric().
     withMessage('price After Discount must be a number')
-    ,check('colors').optional().isArray().withMessage('colors must be an array'),
-    check('category').optional().
-    isMongoId().withMessage('category must be valid Id').
-    custom(async(val)=>{
-        let cat=await Category.findById(val)
-        if(!cat){return Promise.reject(new Error('Cannot find category'));}
+    ,check('category').optional().isString().withMessage('category must be a string'),
+    check('size').optional().
+    isString().withMessage('size must be string').
+    custom(async(val,{req})=>{
+        req.body.size = val.split('.');
         return true;
     }),validationMiddleware
 ];
@@ -38,14 +34,17 @@ let updateProductValidator = [
     ,check('description').optional().
     isString().withMessage('description must be a string').
     isLength({min:10}).withMessage('description is too short'),
-    check('quantity').optional()
-    .isNumeric().withMessage('quantity must be a number'),
     check('price').optional()
     .isNumeric().withMessage('price must be a number'),
     check('priceAfterDiscount').optional().isNumeric().
     withMessage('price After Discount must be a number')
-    ,check('colors').optional().
-    isArray().withMessage('colors must be an array'),
+    ,check('category').optional().isString().withMessage('category must be a string'),
+    check('size').optional().
+    isString().withMessage('size must be string').
+    custom(async(val,{req})=>{
+        req.body.size = val.split('.');
+        return true;
+    }),
     validationMiddleware
 ];
 

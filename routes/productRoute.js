@@ -8,7 +8,7 @@ let {deleteProductValidator,createProductValidator
 let {getProducts, updateProduct, deleteProduct,createProduct ,getProduct }
     =require('../services/productServices');
 
-let {uploadMultipleImage,
+let {uploadMultipleImage,uploadSingleImage,resizeSingleImage,
     resizeMultipleImages}=require('../middllewares/imageMiddleware');
 
 const {allowedTo,protect}=require('../services/authService');
@@ -19,9 +19,8 @@ const {allowedTo,protect}=require('../services/authService');
 router.route('/').
     get(getProducts).
     post(
-    uploadMultipleImage([{name:"images",maxCount:7}
-    ,{name:"coverImage",maxCount:1}]),
-    resizeMultipleImages,
+    uploadSingleImage('image'),
+    resizeSingleImage,
     createProductValidator,createProduct);
     
 router.route('/:id').
