@@ -19,7 +19,6 @@ app.post('/webhook',webhookCheckout );
 
 app.use(express.static('uploads'));
 
-app.use('/api/v1/category',categoryRoute);
 app.use('/api/v1/product',productRoute);
 app.use('/api/v1/user',userRoute);
 app.use('/api/v1/auth',authRoute);
