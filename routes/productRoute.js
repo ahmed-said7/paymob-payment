@@ -5,7 +5,7 @@ let {deleteProductValidator,createProductValidator
 
     ,updateProductValidator,getProductValidator}=require('../validator/productValidator')
 
-let {getProducts, updateProduct, deleteProduct,setSubcategoryId, createProduct ,getProduct }
+let {getProducts, updateProduct, deleteProduct,createProduct ,getProduct }
     =require('../services/productServices');
 
 let {uploadMultipleImage,
