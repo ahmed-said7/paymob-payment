@@ -74,7 +74,7 @@ const createSessions=asyncHandler(async(req, res, next)=>{
 const webhookCheckout = asyncHandler( async (req,res,next)=>{
     const hashed=createHashObj(req);
     if(hashed==req.query.hmac){
-        console.log(req.body.obj.shipping_data)
+        console.log(req.body.obj)
         const email=req.body.obj.shipping_data.email;
     }else{
         console.log('ooops sad try again');
