@@ -74,6 +74,8 @@ const webhookCheckout = asyncHandler( async (req,res,next)=>{
 
     console.log("#########################");
     console.log(req.obj);
+    console.log(req.query);
+    // console.log(req.query);
     console.log("#########################");
 });
 
