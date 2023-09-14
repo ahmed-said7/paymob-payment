@@ -1,4 +1,4 @@
-const asyncHandler=require('express-async-handler');
+const asyncHandler=require("express-async-handler");
 const {validationResult} =require('express-validator');
 const validaionMiddleware =asyncHandler(async(req, res, next) => {
     const errors=validationResult(req);

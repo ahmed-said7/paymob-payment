@@ -11,8 +11,10 @@ const authRoute=require('./routes/authRoute');
 const userRoute=require('./routes/userRoute');
 const cartRoute=require('./routes/cartRoute');
 const orderRoute=require('./routes/orderRoute');
+const {webhookCheckout}=require('./services/orderServices'); 
 
 app.use(cors({origin:"*"}));
+app.post('/webhook',express.raw({ type: 'application/json' }),webhookCheckout);
 
 app.use(express.json());
 app.use(express.static('uploads'));

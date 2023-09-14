@@ -14,10 +14,9 @@ let createProductValidator=[
     withMessage('price After Discount must be a number')
     ,check('category').optional().isString().withMessage('category must be a string'),
     check('size').optional().
-    isString().withMessage('size must be string').
-    custom(async(val,{req})=>{
-        req.body.size = val.split('.');
-        return true;
+    custom((val,{req})=>{
+        req.body.size = val.split('&');
+        return val;
     }),validationMiddleware
 ];
 
@@ -39,12 +38,6 @@ let updateProductValidator = [
     check('priceAfterDiscount').optional().isNumeric().
     withMessage('price After Discount must be a number')
     ,check('category').optional().isString().withMessage('category must be a string'),
-    check('size').optional().
-    isString().withMessage('size must be string').
-    custom(async(val,{req})=>{
-        req.body.size = val.split('.');
-        return true;
-    }),
     validationMiddleware
 ];
 

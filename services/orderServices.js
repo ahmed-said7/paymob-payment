@@ -22,7 +22,7 @@ const createOrder=asyncHandler(async (req,res,next)=>{
         
         cart.cartItems.map(async(item)=>{
         await productModel.findOneAndUpdate(item.product,{
-            $inc:{quantity: -item.quantity, sold : item.quantity}
+            $inc:{sold : item.quantity}
         });
     })
     )
@@ -63,11 +63,15 @@ const createSessions=asyncHandler(async(req, res, next)=>{
     if(!cart){
         return next(new apiError("Cart not found",400));
     };
-    let totalPrice= cart.totalPriceAfterDiscount ? cart.totalPriceAfterDiscount : cart.totalPrice;
+    // let totalPrice= cart.totalPriceAfterDiscount ? cart.totalPriceAfterDiscount : cart.totalPrice;
     const result=await firststep(cart,req.user);
     res.status(200).json({result});
 
 })
 
+const webhookCheckout = asyncHandler( async (req,res,next)=>{
+    console.log(req);
+});
+
 module.exports={updatePaidOrder,updateDeliveredOrder
-    ,getUserOrders,createOrder,createSessions};
+    ,getUserOrders,createOrder,createSessions,webhookCheckout};

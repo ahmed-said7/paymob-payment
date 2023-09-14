@@ -5,8 +5,9 @@ let {deleteProductValidator,createProductValidator
 
     ,updateProductValidator,getProductValidator}=require('../validator/productValidator')
 
-let {getProducts, updateProduct, deleteProduct,createProduct ,getProduct }
+let {getProducts, updateProduct, deleteProduct,createProduct ,getProduct,addSizeToProduct }
     =require('../services/productServices');
+
 
 let {uploadMultipleImage,uploadSingleImage,resizeSingleImage,
     resizeMultipleImages}=require('../middllewares/imageMiddleware');
@@ -20,8 +21,8 @@ router.route('/').
     get(getProducts).
     post(
     uploadSingleImage('image'),
-    resizeSingleImage,
-    createProductValidator,createProduct);
+    resizeSingleImage('product'),
+    createProductValidator,addSizeToProduct,createProduct);
     
 router.route('/:id').
     get(getProductValidator,getProduct).
