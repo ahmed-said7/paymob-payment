@@ -72,7 +72,7 @@ const createSessions=asyncHandler(async(req, res, next)=>{
 
 const webhookCheckout = asyncHandler( async (req,res,next)=>{
     console.log("#########################");
-    console.log(req);
+    console.log(req.obj);
     console.log("#########################");
 });
 
