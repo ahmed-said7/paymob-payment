@@ -1,21 +1,59 @@
+const {createHmac} =require('crypto');
+require('dotenv').config();
+
+
 const createHashObj=(req)=>{
-    const Obj={};
-    Obj.orderId=req.obj.order.id;
-    Obj.orderCreatedAt=req.obj.order.created_at;
-    Obj.orderMerchant=req.obj.order.merchant.id;
-    Obj.orderItems=req.obj.order.items;
-    Obj.transactionId=req.obj.id;
-    Obj.pending=req.obj.pending;
-    Obj.price=req.obj.amount_cents;
-    Obj.success=req.obj.success;
-    Obj.currency=req.obj.currency;
-    Obj.isAuth=req.obj.is_auth;
-    Obj.isCapture=req.obj.is_capture;
-    Obj.isVoided=req.obj.is_void;
-    Obj.isSecure=req.obj.is_3d_secure;
-    Obj.isRefunded=req.obj.is_refunded;
-    Obj.email=req.obj.shipping_data.email;
-    return Obj;
+    const {
+        amount_cents,
+        created_at,
+        currency,
+        error_occured,
+        has_parent_transaction,
+        id,
+        integration_id,
+        is_3d_secure,
+        is_auth,
+        is_capture,
+        is_refunded,
+        is_standalone_payment,
+        is_voided,
+        order: { id: order_id },
+        owner,
+        pending,
+        source_data: {
+            pan: source_data_pan,
+            sub_type: source_data_sub_type,
+            type: source_data_type,
+        },
+        success,
+        } = req.body.obj;
+        
+        const stringHmac =
+        amount_cents +
+        created_at +
+        currency +
+        error_occured +
+        has_parent_transaction +
+        id +
+        integration_id +
+        is_3d_secure +
+        is_auth +
+        is_capture +
+        is_refunded +
+        is_standalone_payment +
+        is_voided +
+        order_id +
+        owner +
+        pending +
+        source_data_pan +
+        source_data_sub_type +
+        source_data_type +
+        success;
+
+        const hashed=createHmac("sha512", process.env.HMAC)
+        .update(stringHmac)
+        .digest("hex");
+        return hashed;
 };
 
 module.exports=createHashObj;

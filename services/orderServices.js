@@ -4,6 +4,7 @@ const apiError = require('../utils/apiError');
 const orderModel=require('../models/orderModel');
 const productModel = require('../models/productModel');
 const firststep=require('../utils/session');
+const createHashObj = require('../utils/createHashObj');
 
 const createOrder=asyncHandler(async (req,res,next)=>{
     const cart=await cartModel.findById(req.params.cartId);
@@ -71,11 +72,14 @@ const createSessions=asyncHandler(async(req, res, next)=>{
 })
 
 const webhookCheckout = asyncHandler( async (req,res,next)=>{
-    console.log("#########################");
-    console.log(req.body);
-    console.log(req.query);
-    console.log(JSON.parse(req.body));
-    console.log("#########################");
+    
+    const hashed=createHashObj(req);
+    if(hashed==req.query.hmac){
+        console.log('good jop handasa keep going');
+    }else{
+        console.log('ooops sad try again');
+    }
+
 });
 
 module.exports={updatePaidOrder,updateDeliveredOrder
