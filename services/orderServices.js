@@ -74,11 +74,12 @@ const createSessions=asyncHandler(async(req, res, next)=>{
 const webhookCheckout = asyncHandler( async (req,res,next)=>{
     const hashed=createHashObj(req);
     if(hashed==req.query.hmac){
-        const price=Math.floor( req.body.obj.amount_cents / 100 );
-        const email=req.body.obj.shipping_data.email;
-        const cartId=req.body.obj.shipping_data.state;
-        console.log('here we go');
-        console.log(email,price,cartId);
+        // const price=Math.floor( req.body.obj.amount_cents / 100 );
+        // const email=req.body.obj.shipping_data.email;
+        // const cartId=req.body.obj.shipping_data.state;
+
+        console.log(req.body.obj.payment_key_claims)
+        console.log(req.body.obj.shipping_data);
     }else{
         console.log('ooops sad try again');
     }
@@ -86,4 +87,4 @@ const webhookCheckout = asyncHandler( async (req,res,next)=>{
 });
 
 module.exports={updatePaidOrder,updateDeliveredOrder
-    ,getUserOrders,createOrder,createSessions,webhookCheckout};
+    ,getUserOrders,createOrder,webhookCheckout,createSessions};
