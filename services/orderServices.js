@@ -3,6 +3,7 @@ const cartModel=require('../models/cartModel');
 const apiError = require('../utils/apiError');
 const orderModel=require('../models/orderModel');
 const productModel = require('../models/productModel');
+const userModel=require('../models/userModel');
 const firststep=require('../utils/session');
 const createHashObj = require('../utils/createHashObj');
 
@@ -71,9 +72,39 @@ const createSessions=asyncHandler(async(req, res, next)=>{
 
 })
 
+const createOnlineOrder=asyncHandler( async (email,cartId,price)=>{
+    const user=await userModel.findOne({email:email});
+    const cart=await cartModel.findById(cartId);
+    if(!cart){
+        return next(new apiError('Cart not found',400));
+    };
+    const order=await orderModel.create({
+        user,cartItems:cart.cartItems
+    });
+
+    order.totalPrice= cart.totalPriceAfterDiscount ? 
+        cart.totalPriceAfterDiscount : cart.totalPrice;
+
+    await Promise.all(
+        cart.cartItems.map(async(item)=>{
+        await productModel.findByIdAndUpdate(item.product,{
+            $inc:{sold : item.quantity}
+        });
+
+    })
+    )
+    await order.save();
+    await cartModel.findByIdAndDelete(cartId);
+    console.log(order._id);
+});
+
+
+
+
 const webhookCheckout = asyncHandler( async (req,res,next)=>{
     const hashed=createHashObj(req);
     if(hashed==req.query.hmac){
+        console.log(req.body.obj.payment_key_claims);
         console.log(req.body.obj.payment_key_claims.billing_data);
         const data=req.body.obj.payment_key_claims.billing_data;
         const price=Math.floor( req.body.obj.amount_cents / 100 );
