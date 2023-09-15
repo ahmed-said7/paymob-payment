@@ -51,7 +51,7 @@ const thirdstep=async (orderId,token,cart,user)=>{
             "phone_number": user.phone || "empty", 
             "city": user.city || "empty", 
             "last_name": cart._id ,
-            "country":process.env.currency,
+            "country":"KSA",
             "street": user.street || "empty",
             "building": user.building || "empty",
             "floor":user.floor || "empty",

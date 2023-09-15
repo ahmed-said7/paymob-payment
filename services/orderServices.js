@@ -6,6 +6,7 @@ const productModel = require('../models/productModel');
 const userModel=require('../models/userModel');
 const firststep=require('../utils/session');
 const createHashObj = require('../utils/createHashObj');
+const {getOne,getAll,deleteOne}=require('../utils/apiFactory');
 
 const createOrder=asyncHandler(async (req,res,next)=>{
     const cart=await cartModel.findById(req.params.cartId);
@@ -115,9 +116,16 @@ const webhookCheckout = asyncHandler( async (req,res,next)=>{
 
 });
 
+const deleteOrder=deleteOne(orderModel);
+const getOrders=getAll(orderModel);
+const getOrder=getOne(orderModel);
+
+
+
+
 const successPage=asyncHandler(async(req,res,next)=>{
     res.render('success');
 });
 
 module.exports={updatePaidOrder,updateDeliveredOrder
-    ,getUserOrders,createOrder,webhookCheckout,createSessions,successPage};
+    ,getUserOrders,createOrder,getOrder,getOrders,deleteOrder,webhookCheckout,createSessions,successPage};

@@ -63,4 +63,5 @@ const getLoggedUserCart=asyncHandler(async(req,res,next)=>{
     res.status(200).json({cart});
 });
 
-module.exports={deleteProductCart,deleteLoggedUserCart,addProductToCart,getLoggedUserCart};
+module.exports=
+{deleteProductCart,deleteLoggedUserCart,addProductToCart,getLoggedUserCart};

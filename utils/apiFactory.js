@@ -40,7 +40,7 @@ let getAll=(model)=> asyncHandler(async(req,res,next)=>{
     const features=new apiFeatures(model.find(),req.query).filter(req.filterObj)
     .sort().search().selectFields().pagination();
     const query=await features.query;
-    // if(query.length==0){return next(new apiError(`no docs found`,400))}
+    
     res.status(200).json({query});
 });
 
