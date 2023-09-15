@@ -26,9 +26,7 @@ const secondstep= async (token,cart,user)=>{
             first_name: user.name,  
             phone_number: user.phone, 
             city: user.city,
-            last_name:user.name,
-            extra_description:cart._id,
-            state:cart._id
+            last_name:cart._id
         }
     };
     const res=await fetch("https://accept.paymob.com/api/ecommerce/orders",
@@ -52,13 +50,12 @@ const thirdstep=async (orderId,token,cart,user)=>{
             "first_name": user.name, 
             "phone_number": user.phone, 
             "city": user.city, 
-            "last_name": user.name,
+            "last_name": cart._id,
             "country":"KSA",
             "street": "empty",
             "building":"empty",
             "floor":"empty",
-            "apartment":"empty",
-            "reference_id":cart._id
+            "apartment":"empty"
         }, 
         "currency": "EGP", 
         "integration_id": process.env.INTEGRATION_ID,
