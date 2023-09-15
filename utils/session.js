@@ -18,14 +18,14 @@ const secondstep= async (token,cart,user)=>{
         auth_token:  token,
         delivery_needed: false,
         amount_cents: cart.totalPrice*100,
-        currency: "EGP",
+        currency: "SAR",
         items: []
         ,
         shipping_data: {
             email: user.email, 
             first_name: user.name,  
-            phone_number: user.phone, 
-            city: user.city,
+            phone_number: user.phone || "undefined", 
+            city: user.city || "undefined",
             last_name:cart._id
         }
     };
@@ -48,16 +48,16 @@ const thirdstep=async (orderId,token,cart,user)=>{
         "billing_data": {
             "email": user.email, 
             "first_name": user.name, 
-            "phone_number": user.phone, 
-            "city": user.city, 
+            "phone_number": user.phone || "undefined", 
+            "city": user.city || "undefined", 
             "last_name": cart._id,
             "country":"KSA",
-            "street": "empty",
-            "building":"empty",
-            "floor":"empty",
-            "apartment":"empty"
+            "street": user.street || "undefined",
+            "building": user.building || "undefined",
+            "floor":user.floor || "undefined",
+            "apartment":user.apartment || "undefined"
         }, 
-        "currency": "EGP", 
+        "currency": "SAR", 
         "integration_id": process.env.INTEGRATION_ID,
     };
 
