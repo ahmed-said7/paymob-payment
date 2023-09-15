@@ -74,6 +74,7 @@ const createSessions=asyncHandler(async(req, res, next)=>{
 const webhookCheckout = asyncHandler( async (req,res,next)=>{
     const hashed=createHashObj(req);
     if(hashed==req.query.hmac){
+        console.log(req.body.obj.payment_key_claims.billing_data);
         const data=req.body.obj.payment_key_claims.billing_data;
         const price=Math.floor( req.body.obj.amount_cents / 100 );
         const email=data.email;
