@@ -15,7 +15,7 @@ const {allowedTo,login,signup,protect}=require('../services/authService');
 
 
 router.route('/signup')
-    .post( createUserValidator,uploadSingleImage('image') , resizeSingleImage('user') , signup);
+    .post(uploadSingleImage('image'),resizeSingleImage('user'),createUserValidator,signup);
 
 router.route('/login').post(login);
 

@@ -1,12 +1,12 @@
 const validationMiddleware=require('../middllewares/validationMiddleware');
-const {check,body}=require('express-validator');
+const {check}=require('express-validator');
 const userModel=require('../models/userModel');
 const bcrypt=require('bcryptjs');
 
 
 const createUserValidator=[
     check('name').notEmpty().withMessage('name is required')
-    .isString().withMessage('name should be a string'),
+    .isString().withMessage('name should be a string')
     ,check('email').notEmpty().withMessage('email is required')
     .isEmail().withMessage('invalid email address')
     .custom(async(val)=>{
@@ -45,7 +45,7 @@ const deleteUserValidator = [
 ];
 const changeUserPasswordValidator = [
     check('id').isMongoId().withMessage('Invalid User id format'),
-    body('currentPassword').notEmpty().withMessage('currrent password is required')
+    check('currentPassword').notEmpty().withMessage('currrent password is required')
     .custom(async(val,{req})=>{
             const user=await userModel.findById(req.params.id)
             if(!user){
