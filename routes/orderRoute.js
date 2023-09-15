@@ -19,9 +19,9 @@ router.route("/user-orders").get(allowedTo('admin','user','manager'),getUserOrde
 router.route("/session/:cartId")
     .post(allowedTo('admin','user','manager'),createSessions);
 
-router.route("/:id").get(allowedTo('manager','user'),getOrder);
+router.route("/:id").get(allowedTo('manager','admin'),getOrder);
 
-router.route("/:id").delete(allowedTo('manager','user'),deleteOrder);
+router.route("/:id").delete(allowedTo('manager','admin'),deleteOrder);
 
 router.route('/').get(allowedTo('admin','user'),getOrders);
 

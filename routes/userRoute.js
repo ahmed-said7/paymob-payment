@@ -23,7 +23,8 @@ router.route('/').post(uploadSingleImage('image'),
 
 router.route('/:id').get(getUserValidator,getUser)
     .delete(deleteUserValidator,deleteUser)
-    .patch(updateUserValidator,setPasswordToNull,updateUser);
+    .patch(uploadSingleImage('image'),resizeSingleImage('user')
+    ,updateUserValidator,setPasswordToNull,updateUser);
 
 router.route('/update-password/:id').patch(changeUserPassword);
 
