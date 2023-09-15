@@ -11,10 +11,13 @@ const {allowedTo,protect}=require('../services/authService');
 const{changeUserPassword,
         updateUser,createUser,
         getUsers,deleteUser,getUser,setPasswordToNull}=require('../services/userService');
+const { uploadSingleImage,resizeSingleImage } = require('../middllewares/imageMiddleware');
 
 router.use(protect,allowedTo('admin','manager'))
 
-router.route('/').post(createUserValidator,createUser)
+
+router.route('/').post(uploadSingleImage('image'),
+    resizeSingleImage('user'),createUserValidator,createUser)
     .get(getUsers);
 
 
