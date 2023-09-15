@@ -15,14 +15,12 @@ const createOrder=asyncHandler(async (req,res,next)=>{
     };
     const order=await orderModel.create({
         user: req.user._id,
-        cartItems:cart.cartItems
+        cartItems:cart.cartItems,
+        city:req.user.city,
+        phone:req.user.phone,
+        details:req.user.details,
+        postalCode:req.user.postalCode
     });
-
-    order.city=req.user.city;
-    order.phone=req.user.phone;
-    order.details=req.user.details;
-    order.postalCode=req.user.postalCode;
-
     order.totalPrice= cart.totalPriceAfterDiscount ? 
         cart.totalPriceAfterDiscount : cart.totalPrice;
 
@@ -85,22 +83,21 @@ const createOnlineOrder=asyncHandler( async (email,cartId,price)=>{
         return next(new apiError('Cart not found',400));
     };
     const order=await orderModel.create({
-        user,cartItems:cart.cartItems
+        user,cartItems:cart.cartItems,
+        paymentMethod:"online",
+        isPaid:true,
+        paidAt:new Date(),
+        totalPrice:price,
+        postalCode:user.postalCode,
+        details:user.details,
+        phone:user.phone,
+        city:user.city
     });
-    order.city=user.city;
-    order.phone=user.phone;
-    order.details=user.details;
-    order.postalCode=user.postalCode;
-    order.totalPrice= price;
-    order.paidAt=new Date();
-    order.isPaid=true;
-    order.paymentMethod='online';
     await Promise.all(
         cart.cartItems.map(async(item)=>{
         await productModel.findByIdAndUpdate(item.product,{
             $inc:{sold : item.quantity}
         });
-
     })
     )
     await order.save();

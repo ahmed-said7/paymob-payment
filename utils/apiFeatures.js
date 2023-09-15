@@ -45,7 +45,7 @@ class apiFeatures {
         if(endIndex > page*limit){
             Obj.nextPage=page+1;
         };
-        if(page>0){
+        if(page>1){
             Obj.previousPage=page-1;
         };
         let skip=(page-1)*limit;
