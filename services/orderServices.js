@@ -81,9 +81,10 @@ const createOnlineOrder=asyncHandler( async (email,cartId,price)=>{
     const order=await orderModel.create({
         user,cartItems:cart.cartItems
     });
-
     order.totalPrice= price;
-
+    order.paidAt=new Date();
+    order.isPaid=true;
+    order.paymentMethod='online';
     await Promise.all(
         cart.cartItems.map(async(item)=>{
         await productModel.findByIdAndUpdate(item.product,{
