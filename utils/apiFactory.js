@@ -37,11 +37,12 @@ let getAll=(model)=> asyncHandler(async(req,res,next)=>{
     if(!req.filterObj){
         req.filterObj={};
     };
+    const endIndex=await model.countDocuments();
     const features=new apiFeatures(model.find(),req.query).filter(req.filterObj)
-    .sort().search().selectFields().pagination();
+    .sort().search().selectFields().pagination(endIndex);
     const query=await features.query;
-    
-    res.status(200).json({query});
+    const pagination=await features.Obj;
+    res.status(200).json({pagination,query});
 });
 
 module.exports={getAll,getOne,createOne,updateOne,deleteOne};

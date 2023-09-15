@@ -37,10 +37,22 @@ class apiFeatures {
         };
         return this;
     };
-    pagination(){
+    pagination(endIndex){
+        const Obj={};
         let page=this.queryObject.page||1;
         let limit=this.queryObject.limit||10;
+        Obj.numOfPages=Math.ceil(endIndex / limit);
+        if(endIndex > page*limit){
+            Obj.nextPage=page+1;
+        };
+        if(page>0){
+            Obj.previousPage=page-1;
+        };
         let skip=(page-1)*limit;
+        Obj.currentPage=page;
+        Obj.limit=limit;
+        Obj.numOfDocs=endIndex;
+        this.Obj=Obj;
         this.query=this.query.skip(skip).limit(limit);
         return this;
     }
