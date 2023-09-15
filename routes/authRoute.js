@@ -1,11 +1,15 @@
 let express= require('express');
 let router=express.Router();
 
+
+const {updateLoggedUserValidator,createUserValidator
+    ,changeLoggedUserPasswordValidator}=require('../validator/userValidator');
+
 const {uploadSingleImage,resizeSingleImage}
     =require('../middllewares/imageMiddleware');
 
 const {getLoggedUser,updateLoggedUser,changeLoggedUserPassword,
-    deleteLoggedUser}=require('../services/userService');
+    deleteLoggedUser,setPasswordToNull}=require('../services/userService');
 
 const {allowedTo,login,signup,protect}=require('../services/authService');
 
@@ -21,10 +25,11 @@ router.route('/get-me')
     .get(getLoggedUser);
 
 router.route('/update-me')
-    .patch(uploadSingleImage('image'),resizeSingleImage('user') ,updateLoggedUser);
+    .patch(uploadSingleImage('image'),
+    resizeSingleImage('user'),setPasswordToNull,updateLoggedUser);
 
 router.route('/update-password').patch(changeLoggedUserPassword);
 
-router.route('/delete-me').patch(deleteLoggedUser);
+router.route('/delete-me').delete(deleteLoggedUser);
 
 module.exports=router;

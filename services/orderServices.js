@@ -36,7 +36,7 @@ const createOrder=asyncHandler(async (req,res,next)=>{
     })
     )
     await order.save();
-    // await cartModel.findByIdAndDelete(req.params.cartId);
+    await cartModel.findByIdAndDelete(req.params.cartId);
 
     res.status(200).json({status: 'success',order});
 
@@ -104,7 +104,7 @@ const createOnlineOrder=asyncHandler( async (email,cartId,price)=>{
     })
     )
     await order.save();
-    // await cartModel.findByIdAndDelete(cartId);
+    await cartModel.findByIdAndDelete(cartId);
     console.log(order._id);
 });
 

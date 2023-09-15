@@ -43,7 +43,7 @@ let changeLoggedUserPassword=handler(async(req,res,next)=>{
     user.password=req.body.password;
     user.passwordChangedAt=Date.now();
     await user.save();
-    res.status(200).json({updatedUser:user})
+    res.status(200).json({user});
 });
 
 let deleteLoggedUser=handler(async(req,res,next)=>{
@@ -51,7 +51,12 @@ let deleteLoggedUser=handler(async(req,res,next)=>{
     res.status(200).json({deletedUser:user})
 });
 
-
+const setPasswordToNull=handler(async(req,res,next)=>{
+    if(req.body.password){
+        req.body.password = undefined;
+    };
+    return next();
+});
 module.exports={getLoggedUser,updateLoggedUser,changeLoggedUserPassword,
     deleteLoggedUser,changeUserPassword,
-    updateUser,createUser,getUsers,deleteUser,getUser};
+    updateUser,createUser,getUsers,deleteUser,getUser,setPasswordToNull};

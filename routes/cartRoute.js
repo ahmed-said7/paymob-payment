@@ -12,8 +12,7 @@ router.route('/add-product').
 
 router.route('/').get(getLoggedUserCart);
 
-router.route('/delete-product/:productId').
-    post(deleteProductCart);
+router.route('/delete-product/:productId').delete(deleteProductCart);
 
 
 router.route('/delete-cart').

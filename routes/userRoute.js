@@ -1,10 +1,20 @@
 let express= require('express');
 let router=express.Router();
 
+
+const {updateLoggedUserValidator,createUserValidator
+    ,changeLoggedUserPasswordValidator}=require('../validator/userValidator');
+
+
+const {createUserValidator,getUserValidator,updateUserValidator,
+        deleteUserValidator,changeUserPasswordValidator}=require('../validator/userValidator')
+
+
+
 const {allowedTo,protect}=require('../services/authService');
 const{changeUserPassword,
         updateUser,createUser,
-        getUsers,deleteUser,getUser}=require('../services/userService');
+        getUsers,deleteUser,getUser,setPasswordToNull}=require('../services/userService');
 
 router.use(protect,allowedTo('admin','manager'))
 
@@ -14,7 +24,7 @@ router.route('/').post(createUser)
 
 router.route('/:id').get(getUser)
     .delete(deleteUser)
-    .patch(updateUser);
+    .patch(setPasswordToNull,updateUser);
 
 router.route('/update-password/:id').patch(changeUserPassword);
 

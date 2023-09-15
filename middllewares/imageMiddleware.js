@@ -25,12 +25,11 @@ const uploadMultipleImage=function(field){
 }
 
 const resizeSingleImage=(model)=> asyncHandler(async(req,res,next)=>{
-    // console.log(req.file);
     if(req.file){
         const filename=`${model}-${Date.now()}-${uuid.v4()}.jpeg`;
+        req.body.image=filename;
         await sharp(req.file.buffer).resize(600,600).toFormat('jpeg').
         jpeg({quality:90}).toFile(`uploads/${model}/${filename}`);
-        req.body.image=filename;
     }
     next();
 })
