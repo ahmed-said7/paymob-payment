@@ -78,7 +78,7 @@ const webhookCheckout = asyncHandler( async (req,res,next)=>{
         const price=Math.floor( req.body.obj.amount_cents / 100 );
         const email=data.email;
         const cartId=data.last_name;
-        console.lod(data);
+        console.log(data);
         console.log(price);
         console.log(email);
         console.log(cartId);
