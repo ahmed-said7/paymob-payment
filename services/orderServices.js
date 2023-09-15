@@ -30,7 +30,7 @@ const createOrder=asyncHandler(async (req,res,next)=>{
     })
     )
     await order.save();
-    await cartModel.findByIdAndDelete(req.params.cartId);
+    // await cartModel.findByIdAndDelete(req.params.cartId);
 
     res.status(200).json({status: 'success',order});
 
@@ -82,8 +82,7 @@ const createOnlineOrder=asyncHandler( async (email,cartId,price)=>{
         user,cartItems:cart.cartItems
     });
 
-    order.totalPrice= cart.totalPriceAfterDiscount ? 
-        cart.totalPriceAfterDiscount : cart.totalPrice;
+    order.totalPrice= price;
 
     await Promise.all(
         cart.cartItems.map(async(item)=>{
@@ -94,7 +93,7 @@ const createOnlineOrder=asyncHandler( async (email,cartId,price)=>{
     })
     )
     await order.save();
-    await cartModel.findByIdAndDelete(cartId);
+    // await cartModel.findByIdAndDelete(cartId);
     console.log(order._id);
 });
 
@@ -104,21 +103,20 @@ const createOnlineOrder=asyncHandler( async (email,cartId,price)=>{
 const webhookCheckout = asyncHandler( async (req,res,next)=>{
     const hashed=createHashObj(req);
     if(hashed==req.query.hmac){
-        console.log(req.body.obj.payment_key_claims);
-        console.log(req.body.obj.payment_key_claims.billing_data);
         const data=req.body.obj.payment_key_claims.billing_data;
         const price=Math.floor( req.body.obj.amount_cents / 100 );
         const email=data.email;
         const cartId=data.last_name;
-        console.log(data);
-        console.log(price);
-        console.log(email);
-        console.log(cartId);
+        createOnlineOrder(email,cartId,price);
     }else{
-        console.log('ooops sad try again');
-    }
+        return next(new apiError('can not pay , pay failed',400));
+    };
 
 });
 
+const successPage=asyncHandler(async(req,res,next)=>{
+    res.render('success');
+});
+
 module.exports={updatePaidOrder,updateDeliveredOrder
-    ,getUserOrders,createOrder,webhookCheckout,createSessions};
+    ,getUserOrders,createOrder,webhookCheckout,createSessions,successPage};
