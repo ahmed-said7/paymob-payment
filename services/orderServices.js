@@ -20,6 +20,7 @@ const createOrder=asyncHandler(async (req,res,next)=>{
         phone:req.user.phone,
         details:req.user.details,
         postalCode:req.user.postalCode
+        ,paymentMethod:"cash"
     });
     order.totalPrice= cart.totalPriceAfterDiscount ? 
         cart.totalPriceAfterDiscount : cart.totalPrice;

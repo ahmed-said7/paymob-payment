@@ -23,7 +23,9 @@ let orderSchema=new mongoose.Schema({
     },
     paidAt:Date,
     paymentMethod:{
-        type:String,default:"cash",enum:["cash","online"]
+        type:String
+        // ,default:"cash"
+        ,enum:["cash","online"]
     },
     totalPrice:{
         type:Number
