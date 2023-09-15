@@ -26,7 +26,9 @@ const secondstep= async (token,cart,user)=>{
             first_name: user.name,  
             phone_number: user.phone, 
             city: user.city,
-            last_name:user.name
+            last_name:user.name,
+            extra_description:cart._id,
+            state:cart._id
         }
     };
     const res=await fetch("https://accept.paymob.com/api/ecommerce/orders",
