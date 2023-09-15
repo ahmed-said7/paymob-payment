@@ -69,7 +69,7 @@ const thirdstep=async (orderId,token,cart,user)=>{
         });
     const result=await res.json();
     const url=`https://accept.paymob.com/api/acceptance/iframes/${process.env.IFRAME}?payment_token=${result.token}`
-    return {url,orderId};
+    return {url,orderId,result};
 }
 
 module.exports=firststep;
