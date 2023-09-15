@@ -39,8 +39,8 @@ class apiFeatures {
     };
     pagination(endIndex){
         const Obj={};
-        let page=this.queryObject.page||1;
-        let limit=this.queryObject.limit||10;
+        let page=this.queryObject.page*1 || 1;
+        let limit=this.queryObject.limit*1 || 10;
         Obj.numOfPages=Math.ceil(endIndex / limit);
         if(endIndex > page*limit){
             Obj.nextPage=page+1;
