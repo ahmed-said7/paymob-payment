@@ -18,7 +18,7 @@ const secondstep= async (token,cart,user)=>{
         auth_token:  token,
         delivery_needed: false,
         amount_cents: cart.totalPrice*100,
-        currency: "KSA",
+        currency: process.env.currency,
         items: []
         ,
         shipping_data: {
@@ -50,14 +50,14 @@ const thirdstep=async (orderId,token,cart,user)=>{
             "first_name": user.name, 
             "phone_number": user.phone || "empty", 
             "city": user.city || "empty", 
-            "last_name": cart._id,
-            "country":"KSA",
+            "last_name": cart._id ,
+            "country":process.env.currency,
             "street": user.street || "empty",
             "building": user.building || "empty",
             "floor":user.floor || "empty",
             "apartment":user.apartment || "empty"
         }, 
-        "currency": "KSA", 
+        "currency": process.env.currency, 
         "integration_id": process.env.INTEGRATION_ID,
     };
 
@@ -69,7 +69,7 @@ const thirdstep=async (orderId,token,cart,user)=>{
         });
     const result=await res.json();
     const url=`https://accept.paymob.com/api/acceptance/iframes/${process.env.IFRAME}?payment_token=${result.token}`
-    return {url,orderId,result};
+    return {url,orderId};
 }
 
 module.exports=firststep;
