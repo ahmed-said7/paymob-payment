@@ -18,7 +18,7 @@ const secondstep= async (token,cart,user)=>{
         auth_token:  token,
         delivery_needed: false,
         amount_cents: cart.totalPrice*100,
-        currency: "SAR",
+        currency: "KSA",
         items: []
         ,
         shipping_data: {
@@ -57,7 +57,7 @@ const thirdstep=async (orderId,token,cart,user)=>{
             "floor":user.floor || "empty",
             "apartment":user.apartment || "empty"
         }, 
-        "currency": "SAR", 
+        "currency": "KSA", 
         "integration_id": process.env.INTEGRATION_ID,
     };
 
