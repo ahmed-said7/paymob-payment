@@ -15,19 +15,19 @@ let {uploadMultipleImage,uploadSingleImage,resizeSingleImage,
 const {allowedTo,protect}=require('../services/authService');
 
 
-// router.use(protect);
+router.use(protect);
 
 router.route('/').
-    get(getProducts).
-    post(
+    get(allowedTo('user','admin','manager'),getProducts).
+    post(allowedTo('admin','manager'),
     uploadSingleImage('image'),
     resizeSingleImage('product'),
     createProductValidator,addSizeToProduct,createProduct);
     
 router.route('/:id').
-    get(getProductValidator,getProduct).
-    delete(deleteProductValidator,deleteProduct).
-    patch(uploadSingleImage('image'),resizeSingleImage('product')
+    get(allowedTo('user','admin','manager'),getProductValidator,getProduct).
+    delete(allowedTo('admin','manager'),deleteProductValidator,deleteProduct).
+    patch(allowedTo('admin','manager'),uploadSingleImage('image'),resizeSingleImage('product')
     ,updateProductValidator,addSizeToProduct,updateProduct);
 
 
