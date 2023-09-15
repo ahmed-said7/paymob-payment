@@ -13,7 +13,7 @@ const orderRoute=require('./routes/orderRoute');
 const {webhookCheckout,successPage}=require('./services/orderServices'); 
 
 app.use(cors({origin:"*"}));
-// express.raw({ type: 'application/json' }),
+app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.static('public'));
 app.use(express.static('uploads'));
