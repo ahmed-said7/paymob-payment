@@ -15,7 +15,7 @@ const {allowedTo,login,signup,protect}=require('../services/authService');
 
 
 router.route('/signup')
-    .post( uploadSingleImage('image') , resizeSingleImage('user') , signup);
+    .post( createUserValidator,uploadSingleImage('image') , resizeSingleImage('user') , signup);
 
 router.route('/login').post(login);
 
@@ -26,9 +26,10 @@ router.route('/get-me')
 
 router.route('/update-me')
     .patch(uploadSingleImage('image'),
-    resizeSingleImage('user'),setPasswordToNull,updateLoggedUser);
+    resizeSingleImage('user'),updateLoggedUserValidator
+    ,setPasswordToNull,updateLoggedUser);
 
-router.route('/update-password').patch(changeLoggedUserPassword);
+router.route('/update-password').patch(changeLoggedUserPasswordValidator,changeLoggedUserPassword);
 
 router.route('/delete-me').delete(deleteLoggedUser);
 

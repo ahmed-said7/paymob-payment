@@ -60,7 +60,7 @@ let protect=handler(
 
 let allowedTo=(...roles)=> handler(async (req, res, next)=>{
         if(!roles.includes(req.user.role)){
-            return next(new apiError("you are  not allowed to access this route"),400)
+            return next(new apiError(`you are  not allowed to access this route only allowed to ${roles}` ),400)
         }
         next();
 });
