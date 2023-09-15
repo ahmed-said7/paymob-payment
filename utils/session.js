@@ -24,8 +24,8 @@ const secondstep= async (token,cart,user)=>{
         shipping_data: {
             email: user.email, 
             first_name: user.name,  
-            phone_number: user.phone || "undefined", 
-            city: user.city || "undefined",
+            phone_number: user.phone || "empty", 
+            city: user.city || "empty",
             last_name:cart._id
         }
     };
@@ -48,14 +48,14 @@ const thirdstep=async (orderId,token,cart,user)=>{
         "billing_data": {
             "email": user.email, 
             "first_name": user.name, 
-            "phone_number": user.phone || "undefined", 
-            "city": user.city || "undefined", 
+            "phone_number": user.phone || "empty", 
+            "city": user.city || "empty", 
             "last_name": cart._id,
             "country":"KSA",
-            "street": user.street || "undefined",
-            "building": user.building || "undefined",
-            "floor":user.floor || "undefined",
-            "apartment":user.apartment || "undefined"
+            "street": user.street || "empty",
+            "building": user.building || "empty",
+            "floor":user.floor || "empty",
+            "apartment":user.apartment || "empty"
         }, 
         "currency": "SAR", 
         "integration_id": process.env.INTEGRATION_ID,
