@@ -42,7 +42,7 @@ const productSchema = new mongoose.Schema(
 
 productSchema.post('init',function(doc){
     if(doc.image){
-        doc.image=`{process.env.base_url}/product/${doc.image}`;
+        doc.image=`${process.env.base_url}/product/${doc.image}`;
     };
 })
 
