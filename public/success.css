@@ -9,3 +9,15 @@ h1 {
 p {
     margin-top: 10px;
 }
+body {
+    text-align: center;
+    padding: 40px 0;
+}
+h1 {
+    font-size: 200%;
+    font-weight: 700;
+}
+p {
+    font-size: 160%;
+    font-weight: 400;
+}
