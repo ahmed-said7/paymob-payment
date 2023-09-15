@@ -74,10 +74,10 @@ const createSessions=asyncHandler(async(req, res, next)=>{
 const webhookCheckout = asyncHandler( async (req,res,next)=>{
     const hashed=createHashObj(req);
     if(hashed==req.query.hmac){
-        console.log(req.body.obj)
-        const price=Math.floor( req.body.obj.amount_cents / 1000 );
+        const price=Math.floor( req.body.obj.amount_cents / 100 );
         const email=req.body.obj.shipping_data.email;
-        const cartId=req.body.obj.shipping_data.state
+        const cartId=req.body.obj.shipping_data.state;
+        console.log('here we go');
         console.log(email,price,cartId);
     }else{
         console.log('ooops sad try again');
