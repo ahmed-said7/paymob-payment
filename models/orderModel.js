@@ -27,7 +27,11 @@ let orderSchema=new mongoose.Schema({
     },
     totalPrice:{
         type:Number
-    }
+    },
+    city:String,
+    postalCode:String,
+    details:String,
+    phone:String,
 },{timestamps:true});
 
 

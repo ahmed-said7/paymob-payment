@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema(
     city: String,
     phone: String,
     details: String,
+    postalCode: String,
     image: String,
     password: {
         type: String,

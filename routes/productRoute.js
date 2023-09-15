@@ -27,7 +27,7 @@ router.route('/').
 router.route('/:id').
     get(getProductValidator,getProduct).
     delete(deleteProductValidator,deleteProduct).
-    patch(updateProductValidator,updateProduct)
+    patch(uploadSingleImage('image'),resizeSingleImage('product'),updateProductValidator,updateProduct)
 
 
 module.exports=router;

@@ -18,6 +18,11 @@ const createOrder=asyncHandler(async (req,res,next)=>{
         cartItems:cart.cartItems
     });
 
+    order.city=req.user.city;
+    order.phone=req.user.phone;
+    order.details=req.user.details;
+    order.postalCode=req.user.postalCode;
+
     order.totalPrice= cart.totalPriceAfterDiscount ? 
         cart.totalPriceAfterDiscount : cart.totalPrice;
 
@@ -82,6 +87,10 @@ const createOnlineOrder=asyncHandler( async (email,cartId,price)=>{
     const order=await orderModel.create({
         user,cartItems:cart.cartItems
     });
+    order.city=user.city;
+    order.phone=user.phone;
+    order.details=user.details;
+    order.postalCode=user.postalCode;
     order.totalPrice= price;
     order.paidAt=new Date();
     order.isPaid=true;
