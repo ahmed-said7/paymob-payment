@@ -3,6 +3,7 @@ const uuid=require('uuid');
 const apiError = require('../utils/apiError');
 const asyncHandler=require('express-async-handler');
 const sharp = require('sharp');
+const cloudinary=require('../utils/cloud');
 
 const uploadImage=()=>{
     const storage=multer.memoryStorage();
@@ -26,13 +27,16 @@ const uploadMultipleImage=function(field){
 
 const resizeSingleImage=(model)=> asyncHandler(async(req,res,next)=>{
     if(req.file){
+        req.body.cloud=await cloudinary.uploader.upload(req.file,{
+            upload_preset:`eshop/${model}`
+        }); 
         const filename=`${model}-${Date.now()}-${uuid.v4()}.jpeg`;
         req.body.image=filename;
         await sharp(req.file.buffer).resize(600,600).toFormat('jpeg').
         jpeg({quality:90}).toFile(`uploads/${model}/${filename}`);
     }
     next();
-})
+});
 
 const resizeMultipleImages=asyncHandler(async(req,res,next)=>{
     // console.log(req.files);
