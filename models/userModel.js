@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
         enum: ['user', 'manager', 'admin'],
         default: 'user',
     },
-    cloud:Object
+    cloud:String
 },
     { timestamps: true }
 );

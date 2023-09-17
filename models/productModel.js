@@ -36,7 +36,7 @@ const productSchema = new mongoose.Schema(
         trim:true
     },
     size:[String],
-    cloud:Object
+    cloud:String
 },
     { timestamps: true }
 );

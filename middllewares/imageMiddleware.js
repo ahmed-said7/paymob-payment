@@ -27,41 +27,39 @@ const uploadMultipleImage=function(field){
 
 const resizeSingleImage=(model)=> asyncHandler(async(req,res,next)=>{
     if(req.file){
-        req.body.cloud=await cloudinary.uploader.upload(req.file,{
-            upload_preset:`eshop/${model}`
-        }); 
         const filename=`${model}-${Date.now()}-${uuid.v4()}.jpeg`;
         req.body.image=filename;
         await sharp(req.file.buffer).resize(600,600).toFormat('jpeg').
         jpeg({quality:90}).toFile(`uploads/${model}/${filename}`);
+        req.body.cloud=(await cloudinary.uploader.upload(`uploads/${model}/${filename}`)).secure_url; 
     }
     next();
 });
 
 const resizeMultipleImages=asyncHandler(async(req,res,next)=>{
     // console.log(req.files);
-    if(req.files){
-        let filename;
-        if(req.files.images){
-            req.body.images=[];
-            await Promise.all(
-                req.files.images.map(async(img)=>{
-                    filename=`product-${Date.now()}-${uuid.v4()}.jpeg`;
-                    req.body.images.push(filename);
-                    return await sharp(img.buffer).resize(600,600).toFormat('jpeg').
-                    jpeg({quality:90}).toFile(`uploads/product/${filename}`);
-                })
-            );
-        };
-        if(req.files.coverImage){
-            filename=`product-${Date.now()}-${uuid.v4()}.jpeg`;
-            req.body.coverImage=filename;
-            await sharp(req.files.coverImage[0].buffer).
-            resize(600,600).toFormat('jpeg').
-            jpeg({quality:90}).toFile(`uploads/product/${filename}`);
-        };
-    }
-    next();
+    // if(req.files){
+    //     let filename;
+    //     if(req.files.images){
+    //         req.body.images=[];
+    //         await Promise.all(
+    //             req.files.images.map(async(img)=>{
+    //                 filename=`product-${Date.now()}-${uuid.v4()}.jpeg`;
+    //                 req.body.images.push(filename);
+    //                 return await sharp(img.buffer).resize(600,600).toFormat('jpeg').
+    //                 jpeg({quality:90}).toFile(`uploads/product/${filename}`);
+    //             })
+    //         );
+    //     };
+    //     if(req.files.coverImage){
+    //         filename=`product-${Date.now()}-${uuid.v4()}.jpeg`;
+    //         req.body.coverImage=filename;
+    //         await sharp(req.files.coverImage[0].buffer).
+    //         resize(600,600).toFormat('jpeg').
+    //         jpeg({quality:90}).toFile(`uploads/product/${filename}`);
+    //     };
+    // }
+    // next();
 })
 
 module.exports={uploadSingleImage,uploadMultipleImage,
